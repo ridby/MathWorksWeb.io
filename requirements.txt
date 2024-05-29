@@ -4,3 +4,4 @@ flask_login
 flask_bcrypt
 gunicorn
 flask_migrate
+Flask-WTF
