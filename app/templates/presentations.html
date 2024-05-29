@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section>
+    <h2>Презентации</h2>
+    {% for presentation in presentations %}
+        <article>
+            <h3>{{ presentation.title }}</h3>
+            <small>Автор: {{ presentation.presenter.name }} | Дата: {{ presentation.date_posted.strftime('%Y-%m-%d') }}</small>
+            <br>
+            <a href="{{ url_for('routes.download_presentation', presentation_id=presentation.id) }}" class="btn btn-primary">Скачать</a>
+        </article>
+    {% endfor %}
+</section>
+{% endblock %}
