@@ -102,10 +102,15 @@ def api_login():
     else:
         return jsonify({"status": "failure", "message": "Invalid email or password"}), 401
 
-@bp.route('/api/user_info', methods=['GET'])
+@bp.route('/api/user/<int:user_id>', methods=['GET'])
 @login_required
-def get_user_info():
-    return jsonify({
-        'name': current_user.name,
-        'email': current_user.email
-    })
+def get_user(user_id):
+    user = User.query.get(user_id)
+    if user:
+        return jsonify({
+            'id': user.id,
+            'name': user.name,
+            'email': user.email
+        }), 200
+    else:
+        return jsonify({'message': 'User not found'}), 404
