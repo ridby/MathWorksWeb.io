@@ -9,6 +9,7 @@ from PIL import Image
 from flask import current_app
 from flask import request, jsonify
 from werkzeug.security import check_password_hash
+from werkzeug.security import generate_password_hash
 
 bp = Blueprint('routes', __name__)
 
@@ -17,19 +18,17 @@ bp = Blueprint('routes', __name__)
 def index():
     return render_template('index.html', title='Главная')
 
-@bp.route('/register', methods=['GET', 'POST'])
+@bp.route('/register', methods=['POST'])
 def register():
-    if current_user.is_authenticated:
-        return redirect(url_for('routes.profile'))
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(name=form.name.data, email=form.email.data, password=hashed_password)
-        db.session.add(user)
-        db.session.commit()
-        flash('Ваш аккаунт создан!', 'success')
-        return redirect(url_for('routes.login'))
-    return render_template('register.html', title='Регистрация', form=form)
+    data = request.get_json()
+    hashed_password = generate_password_hash(data['password'], method='sha256')
+    new_user = User(name=data['name'], email=data['email'], password=hashed_password)
+
+    db.session.add(new_user)
+    db.session.commit()
+
+    return jsonify({'message': 'User registered successfully'}), 201
+
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
