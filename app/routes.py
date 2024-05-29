@@ -8,6 +8,7 @@ import secrets
 from PIL import Image
 from flask import current_app
 from flask import request, jsonify
+from werkzeug.security import check_password_hash
 
 bp = Blueprint('routes', __name__)
 
@@ -92,15 +93,13 @@ def download_presentation(presentation_id):
 @bp.route('/api/login', methods=['POST'])
 def api_login():
     data = request.get_json()
-    email = data.get('email')
-    password = data.get('password')
-    
-    user = User.query.filter_by(email=email).first()
-    if user and bcrypt.check_password_hash(user.password, password):
+    user = User.query.filter_by(email=data['email']).first()
+
+    if user and check_password_hash(user.password, data['password']):
         login_user(user)
-        return jsonify({"status": "success", "message": "Logged in successfully", "user_id": user.id}), 200
+        return jsonify({'message': 'Login successful', 'user_id': user.id}), 200
     else:
-        return jsonify({"status": "failure", "message": "Invalid email or password"}), 401
+        return jsonify({'message': 'Invalid credentials'}), 401
 
 @bp.route('/api/user/<int:user_id>', methods=['GET'])
 @login_required
