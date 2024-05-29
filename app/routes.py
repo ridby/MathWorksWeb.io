@@ -101,3 +101,11 @@ def api_login():
         return jsonify({"status": "success", "message": "Logged in successfully", "user_id": user.id}), 200
     else:
         return jsonify({"status": "failure", "message": "Invalid email or password"}), 401
+
+@bp.route('/api/user_info', methods=['GET'])
+@login_required
+def get_user_info():
+    return jsonify({
+        'name': current_user.name,
+        'email': current_user.email
+    })
