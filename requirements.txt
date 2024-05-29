@@ -6,3 +6,4 @@ gunicorn
 flask_migrate
 Flask-WTF
 Pillow
+mail_validator
