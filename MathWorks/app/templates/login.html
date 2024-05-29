@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section id = 'login'>
+    <div class="wrapper">
+        <div class = 'login_title'>Вход</div>
+            <form method="POST" action="{{ url_for('routes.login') }}">
+                {{ form.hidden_tag() }}
+                <div class = 'field'>
+                    {{ form.email(size=32, placeholder='Электронная почта') }}
+                </div>
+                <div class = 'field'>
+                    {{ form.password(size=32, placeholder='Пароль') }}
+                </div>
+                <div class="checkbox">
+                    {{ form.remember() }}
+                    {{ form.remember.label }}
+                </div>
+                <div class="btnlogin">
+                    {{ form.submit() }}
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

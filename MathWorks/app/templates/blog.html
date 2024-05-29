@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section>
+    <h2>Блог</h2>
+    {% for post in posts %}
+        <article>
+            <h3>{{ post.title }}</h3>
+            {% if post.image_file %}
+                <img src="{{ url_for('static', filename='images/' ~ post.image_file) }}" alt="Post Image">
+            {% endif %}
+            <p>{{ post.content }}</p>
+            <small>Автор: {{ post.author.name }} | Дата: {{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+            {% if post.author == current_user or current_user.is_admin %}
+                <form action="{{ url_for('routes.delete_post', post_id=post.id) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+                </form>
+            {% endif %}
+        </article>
+    {% endfor %}
+</section>
+{% endblock %}
