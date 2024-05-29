@@ -20,14 +20,18 @@ def index():
 
 @bp.route('/register', methods=['POST'])
 def register():
-    data = request.get_json()
-    hashed_password = generate_password_hash(data['password'], method='sha256')
-    new_user = User(name=data['name'], email=data['email'], password=hashed_password)
+    try:
+        data = request.get_json()
+        hashed_password = generate_password_hash(data['password'], method='sha256')
+        new_user = User(name=data['name'], email=data['email'], password=hashed_password)
 
-    db.session.add(new_user)
-    db.session.commit()
+        db.session.add(new_user)
+        db.session.commit()
 
-    return jsonify({'message': 'User registered successfully'}), 201
+        return jsonify({'message': 'User registered successfully'}), 201
+    except Exception as e:
+        app.logger.error(f"Error during registration: {e}")
+        return jsonify({'message': 'Registration failed'}), 500
 
 
 @bp.route('/login', methods=['GET', 'POST'])
