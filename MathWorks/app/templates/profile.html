@@ -1,9 +1,0 @@
-{% extends "base.html" %}
-
-{% block content %}
-<section>
-    <h2>Профиль пользователя</h2>
-    <p>Здравствуйте, {{ current_user.name }}.</p>
-    <p>Количество решенных задач: {{ current_user.solved_tasks }}</p>
-</section>
-{% endblock %}
