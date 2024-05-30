@@ -92,16 +92,19 @@ def download_presentation(presentation_id):
     presentation = Presentation.query.get_or_404(presentation_id)
     return send_from_directory(directory='static/presentations', path=presentation.file_path, as_attachment=True)
 
+
 @bp.route('/api/login', methods=['POST'])
 def api_login():
     data = request.get_json()
-    user = User.query.filter_by(email=data['email']).first()
-
-    if user and check_password_hash(user.password, data['password']):
+    email = data.get('email')
+    password = data.get('password')
+    
+    user = User.query.filter_by(email=email).first()
+    if user and bcrypt.check_password_hash(user.password, password):
         login_user(user)
-        return jsonify({'message': 'Login successful', 'user_id': user.id}), 200
+        return jsonify({"status": "success", "message": "Logged in successfully", "user_id": user.id}), 200
     else:
-        return jsonify({'message': 'Invalid credentials'}), 401
+        return jsonify({"status": "failure", "message": "Invalid email or password"}), 401
 
 @bp.route('/api/user/<int:user_id>', methods=['GET'])
 def get_user(user_id):
