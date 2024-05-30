@@ -7,3 +7,4 @@ flask_migrate
 Flask-WTF
 Pillow
 email_validator
+psycopg2-binary
