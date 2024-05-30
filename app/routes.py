@@ -117,3 +117,18 @@ def get_user(user_id):
         }), 200
     else:
         return jsonify({'message': 'User not found'}), 404
+
+@bp.route('/increment_solved_tasks', methods=['POST'])
+def increment_solved_tasks():
+    user_id = request.json.get('user_id')
+    if not user_id:
+        return jsonify({'error': 'User ID is required'}), 400
+
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
+
+    user.solved_tasks += 1
+    db.session.commit()
+
+    return jsonify({'message': 'Solved tasks incremented successfully'}), 200
