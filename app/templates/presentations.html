@@ -6,9 +6,14 @@
     {% for presentation in presentations %}
         <article>
             <h3>{{ presentation.title }}</h3>
-            <small>Автор: {{ presentation.presenter.name }} | Дата: {{ presentation.date_posted.strftime('%Y-%m-%d') }}</small>
+            <div class="info_pres">
+                <small>Автор: {{ presentation.author.name }} | Дата: {{ presentation.date_posted.strftime('%Y-%m-%d') }}</small>
             <br>
-            <a href="{{ url_for('routes.download_presentation', presentation_id=presentation.id) }}" class="btn btn-primary">Скачать</a>
+            </div>
+            <div class="pres_but">
+                    <a href="{{ url_for('routes.download_presentation', presentation_id=presentation.id) }}" class="btn btn-primary">Скачать</a>
+            </div>
+            
         </article>
     {% endfor %}
 </section>
