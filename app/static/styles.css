@@ -12,6 +12,7 @@ body {
     background-color: #18181b;
     margin: 0;
     padding: 0;
+
 }
 
 header {
@@ -152,4 +153,8 @@ input[type="submit"]:hover{
     transition: all 0.3s ease; 
 }
 
+
+small{
+    margin-left: 150px;
+}
 
