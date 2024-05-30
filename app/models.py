@@ -16,6 +16,9 @@ class User(db.Model, UserMixin):
     posts = db.relationship('Post', backref='author', lazy=True)
     is_admin = db.Column(db.Boolean, default=False)
 
+def __repr__(self):
+        return f"User('{self.name}', '{self.email}', '{self.image_file}')"
+
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
