@@ -104,7 +104,6 @@ def api_login():
         return jsonify({'message': 'Invalid credentials'}), 401
 
 @bp.route('/api/user/<int:user_id>', methods=['GET'])
-@login_required
 def get_user(user_id):
     user = User.query.get(user_id)
     if user:
