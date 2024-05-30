@@ -21,7 +21,7 @@ def index():
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('profile'))
+        return redirect(url_for('routes.profile'))
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -29,14 +29,14 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash('Ваш аккаунт создан!', 'success')
-        return redirect(url_for('login'))
+        return redirect(url_for('routes.login'))
     return render_template('register.html', title='Регистрация', form=form)
 
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('profile'))
+        return redirect(url_for('routes.profile'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
