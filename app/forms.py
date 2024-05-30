@@ -10,6 +10,11 @@ class RegistrationForm(FlaskForm):
     confirm_password = PasswordField('Подтвердите Пароль', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Зарегистрироваться')
 
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user:
+            raise ValidationError('Этот email уже используется. Пожалуйста, выберите другой.')
+
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Пароль', validators=[DataRequired()])
