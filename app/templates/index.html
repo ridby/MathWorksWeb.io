@@ -4,6 +4,9 @@
 <section id = "index">
     <h2>MathWorks</h2>
     <p>MathWorks - это программа, которая помогает решать математические задачи различного уровня сложности.</p>
-    <button type="submit" class="btn">Скачать</button>
+    <a href="{{ url_for('static', filename='files/MathWorks.exe') }}" download="MathWorks.exe">
+        <button type="submit" class="btn">Скачать</button>
+    </a>
+    
 </section>
 {% endblock %}
