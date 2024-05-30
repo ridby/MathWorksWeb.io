@@ -120,8 +120,15 @@ def get_user(user_id):
 
 @bp.route('/increment_solved_tasks', methods=['POST'])
 def increment_solved_tasks():
-    try:
-        # Ваш код для обработки POST-запроса здесь
-        return 'Success', 200
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+    user_id = request.json.get('user_id')
+    if not user_id:
+        return jsonify({'error': 'User ID is required'}), 400
+
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
+
+    user.solved_tasks += 1
+    db.session.commit()
+
+    return jsonify({'message': 'Solved tasks incremented successfully'}), 200
